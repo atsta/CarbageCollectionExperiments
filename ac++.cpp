@@ -18,30 +18,49 @@ Node NewNode(int newdata[10]) {
 int main() {
       int i;
       Node *node_arr = new Node[100];
-      int newdata[10] = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+      int *temp;
 
       for(i = 0;i < 100;i = i + 10) {
+        int newdata[5] = { i, i, i, i, i };
         node_arr[i] = NewNode(newdata);
-        int *temp = node_arr[i].data ;
+         temp= (node_arr[i]).data ;
+              cout << *(temp + 3) << endl;
       }
 
-      struct Node* tempNodeA = new Node;
-      struct Node* tempNodeB = new Node;
-      *tempNodeA = node_arr[0];
-      *tempNodeB = node_arr[50];
-      tempNodeA->next = tempNodeB;
-      tempNodeB->prev = tempNodeA;
-
+      struct Node* head = new Node;
+      struct Node *tempNodeA = new Node;
+      struct Node *tempNodeB = new Node;
+      head = node_arr+10;
       *tempNodeA = node_arr[50];
       *tempNodeB = node_arr[90];
+      head->next = tempNodeA;
+      tempNodeA->prev = head;
       tempNodeA->next = tempNodeB;
       tempNodeB->prev = tempNodeA;
 
+      temp = (*head).data ;
+      cout << *(temp + 3)<< endl;
+
+      *tempNodeA = node_arr[10];
+      *tempNodeB = node_arr[80];
+      tempNodeA->next = tempNodeB;
+      tempNodeB->prev = tempNodeA;
+
+       temp = (*tempNodeB).data ;
+       cout << *(temp + 3) << endl;
+
+      *tempNodeB = node_arr[40];
+      tempNodeA->prev = tempNodeB;
+      tempNodeB->next = tempNodeA;
+
+      *tempNodeA = node_arr[80];
+      tempNodeA->next = tempNodeB;
+      tempNodeB->prev = tempNodeA;
 
       delete[] node_arr;
 
-      int *temp = (*tempNodeA->next).data ;
-      cout << *(temp + 5);
+       temp = (*tempNodeB).data ;
+      cout << *(temp + 3) << endl;
 
 
     return 0;
