@@ -3,11 +3,11 @@ using namespace std;
 
 struct Node {
     struct Node *prev;
-    int *data;
+    int data;
     struct Node *next;
 };
 
-Node NewNode(int newdata[10]) {
+Node NewNode(int newdata) {
     struct Node* newNode = new Node;
     newNode->data = newdata;
     newNode->prev = NULL;
@@ -15,81 +15,121 @@ Node NewNode(int newdata[10]) {
     return *newNode;
 }
 
+struct Node* head = NULL;
+struct Node* head2 = NULL;
+
+void insert(int newdata) {
+    struct Node* newNode = new Node;
+    newNode->data = newdata;
+    newNode->next = head;
+    head = newNode;
+}
+
+int deleted_nodes = 0;
+void deleteNode() {
+    Node* temp = head;
+    Node* prev = NULL;
+
+    if (temp != NULL && temp->data % 1000 !=0) {
+        head= temp->next;
+        delete temp;
+        deleted_nodes++;
+        return;
+    }
+
+    while (temp != NULL && temp->data % 1000 ==0) {
+        prev = temp;
+        temp = temp->next;
+    }
+
+    if (temp == NULL)
+        return;
+
+    prev->next = temp->next;
+    delete temp;
+    deleted_nodes++;
+
+}
+/*Node* GetNth(struct Node* head, int n) {
+    if(head == NULL)
+      return NULL;
+    int count = 0;
+
+    if (count == n)
+        return head;
+
+    return GetNth(head->next, n - 1);
+} */
+
+int GetNth(Node* head, int index) {
+
+    Node* current = head;
+    int count = 0;
+    while (current != NULL) {
+        if (count == index)
+            return (current->data);
+        count++;
+        current = current->next;
+    }
+
+void display(struct Node* head) {
+   struct Node* ptr;
+   ptr = head;
+   while (ptr != NULL) {
+      cout<< ptr->data <<" ";
+      ptr = ptr->next;
+   }
+}
+
 int main() {
-      int i;
-      Node *node_arr = new Node[100];
-      int newdata[5] = { 1, 2, 3, 4, 5 };
+    int i, newdata, count, j, k;
 
-      int *temp;
+    for (i = 0;i <= 100000; i++) {
+        newdata = i;
+        insert(newdata);
+    }
 
-      for(i = 0;i < 100;i++) {
-        node_arr[i] = NewNode(newdata);
-      }
+    for (i = 0;i <= 100000; i++) {
+        deleteNode();
+    }
+    display(head);
 
-      struct Node* head = new Node;
-      struct Node* tempNodeA = new Node;
-      struct Node* tempNodeB = new Node;
-      head = node_arr+0;
-      tempNodeA = node_arr + 50;
-      head->next = tempNodeA;
-      tempNodeA->prev = head;
+    count = 100000 - deleted_nodes;
+    i = k = 1;
+    j = count - 1;
+    struct Node* tempNode;
 
-      tempNodeB = node_arr + 90;
-      tempNodeA->next = tempNodeB;
-      tempNodeB->prev = tempNodeA;
+            tempNode = GetNth(head, 0);
+            //cout<< tempNode->data <<" ";
+            tempNode->next = head2;
+            head2 = tempNode;
+            cout<< head2->data <<" ";
 
-      tempNodeA = node_arr + 60;
-      tempNodeA->prev = tempNodeB;
-      tempNodeB->next = tempNodeA;
+                tempNode = GetNth(head->next->next, 10) ;
+                tempNode->next = head2;
+                head2 = tempNode;
+                cout<< head2->data <<" ";
 
-      tempNodeB = node_arr + 10;
-      tempNodeA->next = tempNodeB;
-      tempNodeB->prev = tempNodeA;
+    /*while (i < count/2) {
+    if (i % 2 == 1) {
+        tempNode = GetNth(head, j);
+        //cout<< tempNode->data <<" ";
+        tempNode->next = head2;
+        head2 = tempNode;
+        //cout<< head2->data <<" ";
+        j= j-2;
+    } else {
+            tempNode = GetNth(head, k);
+            //cout<< tempNode->data <<" ";
+            tempNode->next = head2;
+            head2 = tempNode;
+            //cout<< head2->data <<" ";
+            k = k+2;
+    }
+    i++;
+    } */
 
-      tempNodeA = node_arr + 80;
-      tempNodeA->prev = tempNodeB;
-      tempNodeB->next = tempNodeA;
-
-      tempNodeB = node_arr + 40;
-      tempNodeA->next = tempNodeB;
-      tempNodeB->prev = tempNodeA;
-
-      tempNodeA = node_arr + 70;
-      tempNodeA->prev = tempNodeB;
-      tempNodeB->next = tempNodeA;
-
-      tempNodeB = node_arr + 30;
-      tempNodeA->next = tempNodeB;
-      tempNodeB->prev = tempNodeA;
-
-      tempNodeA = node_arr + 20;
-      tempNodeA->prev = tempNodeB;
-      tempNodeB->next = tempNodeA;
-
-      delete[] node_arr;
-
-      /*for(i = 0;i < 100;i = i + 1) {
-          cout << "in"<< endl;
-
-         if (i%10 != 0) {
-            cout << "in"<< endl;
-
-            delete *node_arr[i];
-            cout << "out"<< endl;
-
-         }
-       }*/
-
-     tempNodeA = head;
-              temp = (*head).data ;
-              cout << *(temp + 3)<< endl;
-     while(tempNodeA != NULL) {
-        temp = (*tempNodeA).data ;
-         cout << *(temp + 3)<< endl;
-        tempNodeA = tempNodeA->next;
-     }
-
-
+        //display(head2);
 
     return 0;
 }
