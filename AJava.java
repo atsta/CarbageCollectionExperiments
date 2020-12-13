@@ -71,7 +71,7 @@ class List {
 public class AJava {
     public static void main(String[] args) {
         int i, j, count, back, front;
-        int items = 100000;
+        int items = 1000000;
 
         List l1 = new List();
         for (i = 0;i <= items; i++) {
@@ -107,6 +107,9 @@ public class AJava {
             i++;
         }
 
+        //count time taken for operations in the final "sparse" list
+        long startTime = System.nanoTime();
+
         l2.display();
 
         Node ptr;
@@ -126,6 +129,10 @@ public class AJava {
 
         System.out.println(sum);
         System.out.println(count);
+
+        long endTime   = System.nanoTime();
+        long totalTime = endTime - startTime;
+        System.out.println(totalTime/1000000);
 
     }
 }

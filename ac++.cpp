@@ -77,7 +77,7 @@ void display(struct Node* head) {
 
 int main() {
     int i, j, count, back, front;
-    int items = 100000;
+    int items = 1000000;
 
     for (i = 0;i <= items; i++) {
         int *newdata = new int[150];
