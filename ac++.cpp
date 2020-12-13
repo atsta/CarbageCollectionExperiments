@@ -1,5 +1,8 @@
 #include<iostream>
+#include<chrono>
 using namespace std;
+
+using namespace std::chrono;
 
 struct Node {
     struct Node *prev;
@@ -59,6 +62,7 @@ Node* GetNth(Node* head, int index) {
         count++;
         current = current->next;
     }
+    return NULL;
 }
 
 void display(struct Node* head) {
@@ -66,9 +70,9 @@ void display(struct Node* head) {
    ptr = head;
    while (ptr != NULL) {
       cout<< *((*ptr).data + 0)  <<" ";
-
       ptr = ptr->next;
    }
+   cout << endl;
 }
 
 int main() {
@@ -108,6 +112,9 @@ int main() {
         i++;
     }
 
+    //count time taken for operations in the final "sparse" list
+    auto start = high_resolution_clock::now();
+
     display(head2);
 
     struct Node* ptr;
@@ -125,7 +132,11 @@ int main() {
         ptr = ptr->next;
     }
 
-    cout<< sum <<" ";
+    cout<< "Sum of list's data first items: "<< sum << endl;
+    cout<< "How many items list contains: "<< count << endl;
 
+    auto stop = high_resolution_clock::now();
+    auto duration = duration_cast<microseconds>(stop - start);
+    cout << "Duration AC++: "<< duration.count() << " microseconds" << endl;
     return 0;
 }
