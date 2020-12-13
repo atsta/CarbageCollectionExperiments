@@ -7,14 +7,6 @@ struct Node {
     struct Node *next;
 };
 
-Node NewNode(int newdata) {
-    struct Node* newNode = new Node;
-    newNode->data = newdata;
-    newNode->prev = NULL;
-    newNode->next = NULL;
-    return *newNode;
-}
-
 struct Node* head = NULL;
 struct Node* head2 = NULL;
 
@@ -26,6 +18,7 @@ void insert(int newdata) {
 }
 
 int deleted_nodes = 0;
+
 void deleteNode() {
     Node* temp = head;
     Node* prev = NULL;
@@ -41,36 +34,27 @@ void deleteNode() {
         prev = temp;
         temp = temp->next;
     }
-
     if (temp == NULL)
         return;
-
     prev->next = temp->next;
     delete temp;
     deleted_nodes++;
-
 }
-/*Node* GetNth(struct Node* head, int n) {
-    if(head == NULL)
-      return NULL;
-    int count = 0;
 
-    if (count == n)
-        return head;
-
-    return GetNth(head->next, n - 1);
-} */
-
-int GetNth(Node* head, int index) {
-
+Node* GetNth(Node* head, int index) {
     Node* current = head;
+    Node* nth;
     int count = 0;
-    while (current != NULL) {
-        if (count == index)
-            return (current->data);
+    while (current->next != NULL) {
+        if (count == index - 1) {
+            nth = current->next;
+            current->next = current->next->next;
+            return nth;
+        }
         count++;
         current = current->next;
     }
+}
 
 void display(struct Node* head) {
    struct Node* ptr;
@@ -82,7 +66,7 @@ void display(struct Node* head) {
 }
 
 int main() {
-    int i, newdata, count, j, k;
+    int i, newdata, count, back, front;
 
     for (i = 0;i <= 100000; i++) {
         newdata = i;
@@ -92,44 +76,28 @@ int main() {
     for (i = 0;i <= 100000; i++) {
         deleteNode();
     }
-    display(head);
 
     count = 100000 - deleted_nodes;
-    i = k = 1;
-    j = count - 1;
+    i = front = 1;
+    back = count - 1;
     struct Node* tempNode;
 
-            tempNode = GetNth(head, 0);
-            //cout<< tempNode->data <<" ";
+    while (front < back) {
+        if (i % 2 == 1) {
+            tempNode = GetNth(head, back);
             tempNode->next = head2;
             head2 = tempNode;
-            cout<< head2->data <<" ";
-
-                tempNode = GetNth(head->next->next, 10) ;
+            back = back - 2;
+        } else {
+                tempNode = GetNth(head, front);
                 tempNode->next = head2;
                 head2 = tempNode;
-                cout<< head2->data <<" ";
-
-    /*while (i < count/2) {
-    if (i % 2 == 1) {
-        tempNode = GetNth(head, j);
-        //cout<< tempNode->data <<" ";
-        tempNode->next = head2;
-        head2 = tempNode;
-        //cout<< head2->data <<" ";
-        j= j-2;
-    } else {
-            tempNode = GetNth(head, k);
-            //cout<< tempNode->data <<" ";
-            tempNode->next = head2;
-            head2 = tempNode;
-            //cout<< head2->data <<" ";
-            k = k+2;
+                front = front + 2;
+        }
+        i++;
     }
-    i++;
-    } */
 
-        //display(head2);
+    display(head2);
 
     return 0;
 }
