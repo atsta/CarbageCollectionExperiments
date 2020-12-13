@@ -2,49 +2,20 @@ import java.io.*;
 import java.util.*;
 
 class Node {
-    private Node next;
-    private int[] data;
+    Node next;
+    int[] data;
 
     public Node(Node next, int[] data) {
         this.next = next;
         this.data = data;
     }
-
-    public Node getNext() {
-        return next;
-    }
-
-    public void setNext(Node next) {
-        this.next = next;
-    }
-
-    public int[] getData() {
-        return data;
-    }
-
-    public void setData(int[] data) {
-        this.data = data;
-    }
 }
 
 class List {
-    private Node head = null;
-    private int deleted_nodes = 0;
+    Node head = null;
+    int deleted_nodes = 0;
 
-    public List() {
-    }
-
-    public Node getHead() {
-        return head;
-    }
-
-    public void setHead(Node head) {
-        this.head = head;
-    }
-
-    public int getDeleted_nodes() {
-        return deleted_nodes;
-    }
+    public List() {}
 
     void insert(int[] newdata) {
         Node newNode = new Node(this.head, newdata);
@@ -55,18 +26,18 @@ class List {
         Node temp = this.head;
         Node prev = null;
 
-        if (temp != null && temp.getData()[0] % 1000 != 0) {
-            this.head = temp.getNext();
+        if (temp != null && temp.data[0] % 1000 != 0) {
+            this.head = temp.next;
             this.deleted_nodes++;
             return;
         }
-        while (temp != null && temp.getData()[0] % 1000 == 0) {
+        while (temp != null && temp.data[0] % 1000 == 0) {
             prev = temp;
-            temp = temp.getNext();
+            temp = temp.next;
         }
         if (temp == null)
             return;
-        prev.setNext(temp.getNext());
+        prev.next = temp.next;
         this.deleted_nodes++;
     }
 
@@ -74,8 +45,8 @@ class List {
         Node ptr;
         ptr = this.head;
         while (ptr != null) {
-            System.out.print(ptr.getData()[0] + " ");
-            ptr = ptr.getNext();
+            System.out.print(ptr.data[0] + " ");
+            ptr = ptr.next;
         }
         System.out.println(" ");
     }
@@ -84,24 +55,23 @@ class List {
         Node current = this.head;
         Node nth;
         int count = 0;
-        while (current.getNext() != null) {
+        while (current.next != null) {
             if (count == index - 1) {
-                nth = current.getNext();
-                current.setNext((current.getNext()).getNext());
+                nth = current.next;
+                current.next = ((current.next).next);
                 return nth;
             }
             count++;
-            current = current.getNext();
+            current = current.next;
         }
         return null;
     }
-
 }
 
 public class AJava {
     public static void main(String[] args) {
         int i, j, count, back, front;
-        int items = 1000000;
+        int items = 100000;
 
         List l1 = new List();
         for (i = 0;i <= items; i++) {
@@ -116,9 +86,7 @@ public class AJava {
             l1.deleteNode();
         }
 
-        System.out.println(l1.getDeleted_nodes());
-
-        count = items - l1.getDeleted_nodes();
+        count = items - l1.deleted_nodes;
         i = front = 1;
         back = count - 1;
         Node tempNode;
@@ -127,13 +95,13 @@ public class AJava {
         while (front < back) {
             if (i % 2 == 1) {
                 tempNode = l1.GetNth(back);
-                tempNode.setNext(l2.getHead());
-                l2.setHead(tempNode);
+                tempNode.next = l2.head;
+                l2.head = tempNode;
                 back = back - 2;
             } else {
                 tempNode = l1.GetNth(front);
-                tempNode.setNext(l2.getHead());
-                l2.setHead(tempNode);
+                tempNode.next = l2.head;
+                l2.head = tempNode;
                 front = front + 2;
             }
             i++;
@@ -142,18 +110,18 @@ public class AJava {
         l2.display();
 
         Node ptr;
-        ptr = l2.getHead();
+        ptr = l2.head;
         int sum = 0;
         while (ptr != null) {
-            sum = sum + ptr.getData()[0];
-            ptr = ptr.getNext();
+            sum = sum + ptr.data[0];
+            ptr = ptr.next;
         }
 
-        ptr = l2.getHead();
+        ptr = l2.head;
         count = 0;
         while (ptr != null) {
             count++;
-            ptr = ptr.getNext();
+            ptr = ptr.next;
         }
 
         System.out.println(sum);
