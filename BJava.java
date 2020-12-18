@@ -16,7 +16,7 @@ class List {
 
     public List() {}
 
-        void insert(int[] newdata) {
+    void insert(int[] newdata) {
         Node newNode = new Node(this.head, newdata);
         this.head = newNode;
     }
@@ -30,8 +30,6 @@ class List {
         }
         System.out.println(" ");
     }
-
-
 }
 
 public class BJava {
