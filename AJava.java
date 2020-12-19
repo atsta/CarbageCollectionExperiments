@@ -132,7 +132,6 @@ public class AJava {
 
         long endTime   = System.nanoTime();
         long totalTime = endTime - startTime;
-        System.out.println(totalTime/1000000);
-
+        System.out.println("Duration AJava: " + totalTime/1000000 + " microseconds");
     }
 }

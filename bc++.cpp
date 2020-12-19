@@ -26,76 +26,45 @@ void List::insert(int *newdata) {
 }
 
 int main() {
-    int i, j, count, back, front;
-    int items = 10000000, data_items = 150;
+    int i, j, k, m, count = 0, back, front;
+    int items = 10000000, data_items = 10;
+    Node* ptr;
+
+    auto start = high_resolution_clock::now();
 
     List *l1 = new List();
     for (i = 0;i <= items; i++) {
         int *newdata = new int[data_items];
-        for (j = 0;j < 150;j++) {
+        for (j = 0;j < data_items;j++) {
             newdata[j] = i;
         }
         l1->insert(newdata);
     }
     cout<< *((l1->head)->data + 0)  <<" " << endl;
-    delete l1;
 
-    List *l2 = new List();
-    for (i = 0;i <= items; i++) {
-        int *newdata = new int[data_items];
-        for (j = 0;j < 150;j++) {
-            newdata[j] = i;
+    for (m = 0;m < 4; m++) {
+        List *l2 = new List();
+        for (i = 0;i <= items; i++) {
+            int *newdata = new int[data_items];
+            for (j = 0;j < data_items;j++) {
+                newdata[j] = i;
+            }
+            l2->insert(newdata);
         }
-        l2->insert(newdata);
-    }
-    cout<< *((l2->head)->data + 0)  <<" " << endl;
-    delete l2;
+        delete l2;
 
-    List *l3 = new List();
-    for (i = 0;i <= items; i++) {
-        int *newdata = new int[data_items];
-        for (j = 0;j < 150;j++) {
-            newdata[j] = i;
+        ptr = l1->head;
+        count = 0;
+        while (ptr != NULL) {
+            count++;
+            ptr = ptr->next;
         }
-        l3->insert(newdata);
-    }
-    cout<< *((l3->head)->data + 0)  <<" " << endl;
-    delete l3;
-
-    List *l4 = new List();
-    for (i = 0;i <= items; i++) {
-        int *newdata = new int[data_items];
-        for (j = 0;j < 150;j++) {
-            newdata[j] = i;
-        }
-        l4->insert(newdata);
-    }
-    cout<< *((l4->head)->data + 0)  <<" " << endl;
-
-    auto start = high_resolution_clock::now();
-
-    /*display(head2);
-
-    struct Node* ptr;
-    ptr = head2;
-    int sum = 0;
-    while (ptr != NULL) {
-        sum = sum + ptr->data[0];
-        ptr = ptr->next;
+        cout<< "How many items list contains: "<< count << endl;
     }
 
-    ptr = head2;
-    count = 0;
-    while (ptr != NULL) {
-        count++;
-        ptr = ptr->next;
-    }
 
-    cout<< "Sum of list's data first items: "<< sum << endl;
-    cout<< "How many items list contains: "<< count << endl;
-*/
     auto stop = high_resolution_clock::now();
-    auto duration = duration_cast<microseconds>(stop - start);
+    auto duration = duration_cast<milliseconds>(stop - start);
     cout << "Duration AC++: "<< duration.count() << " microseconds" << endl;
     return 0;
 }

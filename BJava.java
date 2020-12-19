@@ -1,5 +1,7 @@
 import java.io.*;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
+
 
 class Node {
     Node next;
@@ -25,33 +27,32 @@ class List {
 public class BJava {
     public static void main(String[] args) {
         int i, j, k, m, count =0, back, front;
-        int items = 10000000, data_items = 12;
+        int items = 10000000, data_items = 10;
+        Node ptr;
 
-        //count time taken for operations in the final "alive" list
         long startTime = System.nanoTime();
 
-        List l4 = new List();
+        List l1 = new List();
         for (i = 0;i <= items; i++) {
             int [] newdata = new int[data_items];
             for (j = 0;j < data_items;j++) {
                 newdata[j] = i;
             }
-            l4.insert(newdata);
+            l1.insert(newdata);
         }
 
-        for (m = 0;m < 10;m++) {
-                List l5 = new List();
+        for (m = 0;m < 4;m++) {
+                List l2 = new List();
                 for (i = 0;i <= items; i++) {
                     int [] newdata = new int[data_items];
                     for (j = 0;j < data_items;j++) {
                         newdata[j] = i;
                     }
-                    l5.insert(newdata);
+                    l2.insert(newdata);
                 }
-            l5.head = null;
+            l2 = null;
 
-            Node ptr;
-            ptr = l4.head;
+            ptr = l1.head;
             count = 0;
             while (ptr != null) {
                 count++;
@@ -62,6 +63,6 @@ public class BJava {
 
         long endTime   = System.nanoTime();
         long totalTime = endTime - startTime;
-        System.out.println(totalTime/1000000);
+        System.out.println("Duration BJava: " + TimeUnit.NANOSECONDS.toMillis(totalTime) + " microseconds");
     }
 }
