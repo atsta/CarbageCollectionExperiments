@@ -4,53 +4,60 @@ using namespace std;
 
 using namespace std::chrono;
 
-struct Node {
-    struct Node *prev;
+class Node {
+public:
+    Node *next;
     int *data;
-    struct Node *next;
+public:
+    Node(Node *next, int *data):  next {next}, data {data} {}
 };
 
-struct Node* head = NULL;
-struct Node* head2 = NULL;
+class List {
+public:
+    Node* head;
+    int deleted_nodes;
+public:
+    List(): head {NULL}, deleted_nodes {0} {}
+    virtual void insert(int *newdata);
+    virtual void deleteNode();
+    virtual Node* GetNth(int index);
+    virtual void display();
+};
 
-void insert(int newdata[150]) {
-    struct Node* newNode = new Node;
-    newNode->data = newdata;
-    newNode->next = head;
-    head = newNode;
+void List::insert(int *newdata) {
+    Node* newNode = new Node(this->head, newdata);
+    this->head = newNode;
 }
 
-int deleted_nodes = 0;
-
-//delete every list node that its data is not divided by 1000
-void deleteNode() {
-    Node* temp = head;
+//delete every list node that its data is not divided by 10000
+void List::deleteNode() {
+    Node* temp = this->head;
     Node* prev = NULL;
 
-    if (temp != NULL && *((*temp).data + 0) % 1000 !=0) {
-        head= temp->next;
-        delete [] temp->data;
+    if (temp != NULL && *((*temp).data + 0) % 10000 !=0) {
+        this->head= temp->next;
+        //delete [] temp->data;
         delete temp;
-        deleted_nodes++;
+        this->deleted_nodes++;
         return;
     }
 
-    while (temp != NULL && *((*temp).data + 0)  % 1000 ==0) {
+    while (temp != NULL && *((*temp).data + 0)  % 10000 ==0) {
         prev = temp;
         temp = temp->next;
     }
     if (temp == NULL)
         return;
     prev->next = temp->next;
-    delete [] temp->data;
+    //delete [] temp->data;
     delete temp;
-    deleted_nodes++;
+    this->deleted_nodes++;
 }
 
 //get the nth-element of the linked list,
 //and re-arrange its previous element to point to its next.
-Node* GetNth(Node* head, int index) {
-    Node* current = head;
+Node* List::GetNth(int index) {
+    Node* current = this->head;
     Node* nth;
     int count = 0;
     while (current->next != NULL) {
@@ -65,7 +72,7 @@ Node* GetNth(Node* head, int index) {
     return NULL;
 }
 
-void display(struct Node* head) {
+void List::display() {
    struct Node* ptr;
    ptr = head;
    while (ptr != NULL) {
@@ -76,67 +83,64 @@ void display(struct Node* head) {
 }
 
 int main() {
-    int i, j, count, back, front;
-    int items = 1000000;
+    int i, j, m, count, back, front;
+    int items = 11000000;
 
+    List *l1 = new List();
     for (i = 0;i <= items; i++) {
-        int *newdata = new int[150];
-        for (j = 0;j < 150;j++) {
-             newdata[j] = i;
+        int *newdata = new int[10];
+        for (j = 0;j < 10;j++) {
+            newdata[j] = i;
         }
-        insert(newdata);
+        l1->insert(newdata);
     }
 
     for (i = 0;i <= items; i++) {
-        deleteNode();
+        l1->deleteNode();
     }
 
-    count = items - deleted_nodes;
+    count = items - l1->deleted_nodes;
     i = front = 1;
     back = count - 1;
-    struct Node* tempNode;
+    Node* tempNode;
 
-    //new linked list *head2, with the remaining items of the first linked list, in mixed order
+    List *l2 = new List();
+    //new linked list with the remaining items of the first linked list, in mixed order
+
     while (front < back) {
         if (i % 2 == 1) {
-            tempNode = GetNth(head, back);
-            tempNode->next = head2;
-            head2 = tempNode;
+            tempNode = l1->GetNth(back);
+            tempNode->next = l2->head;
+            l2->head = tempNode;
             back = back - 2;
         } else {
-                tempNode = GetNth(head, front);
-                tempNode->next = head2;
-                head2 = tempNode;
+                tempNode = l1->GetNth(front);
+                tempNode->next = l2->head;
+                l2->head = tempNode;
                 front = front + 2;
         }
         i++;
     }
+    delete l1;
 
     //count time taken for operations in the final "sparse" list
     auto start = high_resolution_clock::now();
 
-    display(head2);
-
-    struct Node* ptr;
-    ptr = head2;
-    int sum = 0;
-    while (ptr != NULL) {
-        sum = sum + ptr->data[0];
-        ptr = ptr->next;
+    Node* ptr;
+    for (m = 0;m < 40;m++) {
+        ptr = l2->head;
+        count = 0;
+        while (ptr != NULL) {
+            count++;
+            ptr = ptr->next;
+        }
     }
 
-    ptr = head2;
-    count = 0;
-    while (ptr != NULL) {
-        count++;
-        ptr = ptr->next;
-    }
-
-    cout<< "Sum of list's data first items: "<< sum << endl;
-    cout<< "How many items list contains: "<< count << endl;
+    cout<< "List contains "<< count << " items"<< endl;
 
     auto stop = high_resolution_clock::now();
-    auto duration = duration_cast<microseconds>(stop - start);
-    cout << "Duration AC++: "<< duration.count() << " microseconds" << endl;
+    auto duration = duration_cast<milliseconds>(stop - start);
+    cout << "Operations duration AC++: "<< duration.count() << " milliseconds" << endl;
+
     return 0;
 }

@@ -26,7 +26,7 @@ class List {
 
 public class BJava {
     public static void main(String[] args) {
-        int i, j, k, m, count =0, back, front;
+        int i, j, m, count =0, back, front;
         int items = 10000000, data_items = 10;
         Node ptr;
 
@@ -58,7 +58,7 @@ public class BJava {
                 count++;
                 ptr = ptr.next;
             }
-            System.out.println(count);
+            System.out.println("List contains " + count + " items");
         }
 
         long endTime   = System.nanoTime();

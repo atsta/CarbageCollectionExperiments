@@ -26,7 +26,7 @@ void List::insert(int *newdata) {
 }
 
 int main() {
-    int i, j, k, m, count = 0, back, front;
+    int i, j, m, count = 0, back, front;
     int items = 10000000, data_items = 10;
     Node* ptr;
 
@@ -40,7 +40,6 @@ int main() {
         }
         l1->insert(newdata);
     }
-    cout<< *((l1->head)->data + 0)  <<" " << endl;
 
     for (m = 0;m < 4; m++) {
         List *l2 = new List();
@@ -59,12 +58,13 @@ int main() {
             count++;
             ptr = ptr->next;
         }
-        cout<< "How many items list contains: "<< count << endl;
+        cout<< "List contains "<< count << " items"<< endl;
     }
-
+    delete l1;
 
     auto stop = high_resolution_clock::now();
     auto duration = duration_cast<milliseconds>(stop - start);
-    cout << "Duration AC++: "<< duration.count() << " microseconds" << endl;
+    cout << "Duration BC++: "<< duration.count() << " milliseconds" << endl;
+
     return 0;
 }

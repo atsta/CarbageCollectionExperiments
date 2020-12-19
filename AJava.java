@@ -1,5 +1,6 @@
 import java.io.*;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 class Node {
     Node next;
@@ -26,18 +27,20 @@ class List {
         Node temp = this.head;
         Node prev = null;
 
-        if (temp != null && temp.data[0] % 1000 != 0) {
+        if (temp != null && temp.data[0] % 10000 != 0) {
             this.head = temp.next;
+            temp = null;
             this.deleted_nodes++;
             return;
         }
-        while (temp != null && temp.data[0] % 1000 == 0) {
+        while (temp != null && temp.data[0] % 10000 == 0) {
             prev = temp;
             temp = temp.next;
         }
         if (temp == null)
             return;
         prev.next = temp.next;
+        temp=null;
         this.deleted_nodes++;
     }
 
@@ -70,13 +73,13 @@ class List {
 
 public class AJava {
     public static void main(String[] args) {
-        int i, j, count, back, front;
-        int items = 1000000;
+        int i, j, m, count, back, front;
+        int items = 11000000;
 
         List l1 = new List();
         for (i = 0;i <= items; i++) {
-            int [] newdata = new int[150];
-            for (j = 0;j < 150;j++) {
+            int [] newdata = new int[10];
+            for (j = 0;j < 10;j++) {
                 newdata[j] = i;
             }
             l1.insert(newdata);
@@ -110,28 +113,19 @@ public class AJava {
         //count time taken for operations in the final "sparse" list
         long startTime = System.nanoTime();
 
-        l2.display();
-
         Node ptr;
-        ptr = l2.head;
-        int sum = 0;
-        while (ptr != null) {
-            sum = sum + ptr.data[0];
-            ptr = ptr.next;
+        for (m = 0;m < 40;m++) {
+            ptr = l2.head;
+            count = 0;
+            while (ptr != null) {
+                count++;
+                ptr = ptr.next;
+            }
         }
 
-        ptr = l2.head;
-        count = 0;
-        while (ptr != null) {
-            count++;
-            ptr = ptr.next;
-        }
-
-        System.out.println(sum);
-        System.out.println(count);
+        System.out.println("List contains " + count + " items");
 
         long endTime   = System.nanoTime();
         long totalTime = endTime - startTime;
-        System.out.println("Duration AJava: " + totalTime/1000000 + " microseconds");
-    }
+        System.out.println("Operations duration AJava: " + TimeUnit.NANOSECONDS.toMillis(totalTime) + " milliseconds");    }
 }
