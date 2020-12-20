@@ -1,5 +1,3 @@
-# CarbageCollectionExperiments
-
 Equivalent implementations in Java and C++ to compare a language with embedded Garbage Collector, and a language that allow that task for the programmer. 
 Maximum heap size has been se to be proportional to machine's memory. 
 
