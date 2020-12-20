@@ -2,7 +2,7 @@ Equivalent implementations in Java and C++ to compare a language with embedded G
 Maximum heap size has been se to be proportional to machine's memory. 
 
 # Case A: Java faster, C++ slower
-To make C++ slower compared with the same implementation in Java, we construct objects in memory with big gaps between them, to make the locality as bad as it gets. 
+To make C++ slower compared to the same implementation in Java, we construct objects in memory with big gaps between them, to make the locality as bad as it gets. 
 
 g++ -O2 ac++.cpp -o ac++; ./ac++ || javac AJava.java; java -Xmx8G AJava 
 
