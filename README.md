@@ -11,3 +11,6 @@ To make Garbage Collector slower, we construct object of total size to be propor
 
 g++ -O2 bc++.cpp -o bc++; ./bc++ || javac BJava.java; java -Xmx8G BJava
 
+Same behavior has been observed, with parallel and concurrent GC.
+Parallel GC: java -XX:+UseParallelGC -Xmx8G AJava 
+Concurrent GC: java -XX:+UseG1GC -Xmx8G AJava
