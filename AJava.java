@@ -1,5 +1,3 @@
-import java.io.*;
-import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 class Node {
@@ -16,8 +14,6 @@ class List {
     Node head = null;
     int deleted_nodes = 0;
 
-    public List() {}
-
     void insert(int[] newdata) {
         Node newNode = new Node(this.head, newdata);
         this.head = newNode;
@@ -29,7 +25,6 @@ class List {
 
         if (temp != null && temp.data[0] % 10000 != 0) {
             this.head = temp.next;
-            temp = null;
             this.deleted_nodes++;
             return;
         }
@@ -40,7 +35,6 @@ class List {
         if (temp == null)
             return;
         prev.next = temp.next;
-        temp=null;
         this.deleted_nodes++;
     }
 
@@ -110,7 +104,6 @@ public class AJava {
             i++;
         }
 
-        //count time taken for operations in the final "sparse" list
         long startTime = System.nanoTime();
 
         Node ptr;
@@ -126,6 +119,5 @@ public class AJava {
         System.out.println("List contains " + count + " items");
 
         long endTime   = System.nanoTime();
-        long totalTime = endTime - startTime;
-        System.out.println("Operations duration AJava: " + TimeUnit.NANOSECONDS.toMillis(totalTime) + " milliseconds");    }
+        System.out.println("Operations duration AJava: " + TimeUnit.NANOSECONDS.toMillis(endTime - startTime) + " milliseconds");    }
 }

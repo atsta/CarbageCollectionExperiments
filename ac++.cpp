@@ -1,7 +1,7 @@
 #include<iostream>
 #include<chrono>
-using namespace std;
 
+using namespace std;
 using namespace std::chrono;
 
 class Node {
@@ -36,7 +36,7 @@ void List::deleteNode() {
 
     if (temp != NULL && *((*temp).data + 0) % 10000 !=0) {
         this->head= temp->next;
-        //delete [] temp->data;
+        delete [] temp->data;
         delete temp;
         this->deleted_nodes++;
         return;
@@ -49,7 +49,7 @@ void List::deleteNode() {
     if (temp == NULL)
         return;
     prev->next = temp->next;
-    //delete [] temp->data;
+    delete [] temp->data;
     delete temp;
     this->deleted_nodes++;
 }
@@ -106,6 +106,8 @@ int main() {
 
     List *l2 = new List();
     //new linked list with the remaining items of the first linked list, in mixed order
+    //order is defined like this: item in position i, where i is odd, take the item from the end of List l1
+    //item in position i, where i is even, take the item from the beginning of List l1
 
     while (front < back) {
         if (i % 2 == 1) {
@@ -135,6 +137,7 @@ int main() {
             ptr = ptr->next;
         }
     }
+    delete l2;
 
     cout<< "List contains "<< count << " items"<< endl;
 
